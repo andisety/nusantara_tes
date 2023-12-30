@@ -25,3 +25,27 @@ class InputTextFieldWidget extends StatelessWidget {
     );
   }
 }
+class InputTextFieldPwdWidget extends StatelessWidget {
+  final TextEditingController textEditingController;
+  final String hintText;
+  const InputTextFieldPwdWidget(this.textEditingController, this.hintText, {super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 46,
+      child: TextField(
+        obscureText: true,
+        controller: textEditingController,
+        decoration: InputDecoration(
+            alignLabelWithHint: true,
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black)),
+            fillColor: Colors.white54,
+            hintText: hintText,
+            hintStyle: TextStyle(color: Colors.grey),
+            contentPadding: EdgeInsets.only(bottom: 15),
+            focusColor: Colors.white60),
+      ),
+    );
+  }
+}

@@ -11,7 +11,7 @@ class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
 
-  final Future<SharedPreferences> _Pref = SharedPreferences.getInstance();
+  final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
 
   Future<void> login() async {
     try {
@@ -25,10 +25,14 @@ class LoginController extends GetxController {
       final response = await dio.post(url, data: body);
       if (response.statusCode == 200) {
         print(response.data);
-        final json = jsonDecode(response.data);
-        var token = json['token'];
-        final SharedPreferences? prefs = await _Pref;
-        await prefs?.setString('token', token);
+
+        Map<String, dynamic> responseData = response.data;
+
+        // final json = jsonDecode(response.data);
+        var token = responseData['token'];
+        print(token);
+        final SharedPreferences prefs = await _pref;
+        await prefs.setString('token', token);
       }
     } catch (e) {
       print("error : $e");

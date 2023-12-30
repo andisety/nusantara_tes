@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,8 +14,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  RegisterController registerationController =
-      Get.put(RegisterController());
+  RegisterController registerationController = Get.put(RegisterController());
 
   LoginController loginController = Get.put(LoginController());
 
@@ -91,12 +89,12 @@ class _AuthScreenState extends State<AuthScreen> {
         SizedBox(
           height: 20,
         ),
-        InputTextFieldWidget(
+        InputTextFieldPwdWidget(
             registerationController.pwdController, 'password'),
         SizedBox(
           height: 20,
         ),
-        InputTextFieldWidget(
+        InputTextFieldPwdWidget(
             registerationController.pwd2Controller, 'password confirmation'),
         SizedBox(
           height: 20,
@@ -119,7 +117,7 @@ class _AuthScreenState extends State<AuthScreen> {
         SizedBox(
           height: 20,
         ),
-        InputTextFieldWidget(loginController.pwdController, 'password'),
+        InputTextFieldPwdWidget(loginController.pwdController, 'password'),
         SizedBox(
           height: 20,
         ),

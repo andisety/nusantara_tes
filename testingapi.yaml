@@ -16,3 +16,72 @@ Login:
     "message": "User authenticated",
     "token": "1048|VuAJ7CWKMPhvAde0Jp7g7xhEdDVhFlwGp0kqUpHK"
 }
+
+add book:
+{
+    "message": "Book created",
+    "book": {
+        "isbn": "12132114",
+        "title": "udara",
+        "subtitle": "Dive into ES6 and the Future of JavaScript",
+        "author": "andi",
+        "published": "2017-07-16 00:00:00",
+        "publisher": "airlangga",
+        "pages": "123",
+        "description": "To get the most out of modern JavaScript, you need learn the latest features of its parent specification, ECMAScript 6 (ES6",
+        "website": "ikiwebsite",
+        "user_id": 161,
+        "updated_at": "2023-12-30T14:52:51.000000Z",
+        "created_at": "2023-12-30T14:52:51.000000Z",
+        "id": 297
+    }
+}
+
+get book:
+{
+    "current_page": 1,
+    "data": [
+        {
+            "id": 297,
+            "user_id": 161,
+            "isbn": "12132114",
+            "title": "udara",
+            "subtitle": "Dive into ES6 and the Future of JavaScript",
+            "author": "andi",
+            "published": "2017-07-16 00:00:00",
+            "publisher": "airlangga",
+            "pages": 123,
+            "description": "To get the most out of modern JavaScript, you need learn the latest features of its parent specification, ECMAScript 6 (ES6",
+            "website": "ikiwebsite",
+            "created_at": "2023-12-30T14:52:51.000000Z",
+            "updated_at": "2023-12-30T14:52:51.000000Z"
+        }
+    ],
+    "first_page_url": "http://book-crud-service-6dmqxfovfq-et.a.run.app/api/books?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://book-crud-service-6dmqxfovfq-et.a.run.app/api/books?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http://book-crud-service-6dmqxfovfq-et.a.run.app/api/books?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http://book-crud-service-6dmqxfovfq-et.a.run.app/api/books",
+    "per_page": 15,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+}
