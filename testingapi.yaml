@@ -1,0 +1,18 @@
+Register:
+{
+    "message": "User created",
+    "user": {
+        "name": "andi",
+        "email": "andi@gmail.com",
+        "email_verified_at": "2023-12-30T13:47:24.000000Z",
+        "updated_at": "2023-12-30T13:47:24.000000Z",
+        "created_at": "2023-12-30T13:47:24.000000Z",
+        "id": 161
+    }
+}
+
+Login:
+{
+    "message": "User authenticated",
+    "token": "1048|VuAJ7CWKMPhvAde0Jp7g7xhEdDVhFlwGp0kqUpHK"
+}
