@@ -15,7 +15,6 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   RegisterController registerationController = Get.put(RegisterController());
-
   LoginController loginController = Get.put(LoginController());
 
   var isLogin = false.obs;

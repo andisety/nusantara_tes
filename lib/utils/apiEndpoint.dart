@@ -7,4 +7,5 @@ class _AuthEndpoints {
   final String registerEmail = "/api/register";
   final String loginEmail = "/api/login";
   final String books = "/api/books";
+  final String addBooks = "/api/books/add";
 }

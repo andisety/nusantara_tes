@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:nusantara_tes/ui/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/apiEndpoint.dart';
@@ -33,9 +34,10 @@ class LoginController extends GetxController {
         print(token);
         final SharedPreferences prefs = await _pref;
         await prefs.setString('token', token);
+        Get.to(HomePage());
       }
     } catch (e) {
-      print("error : $e");
+      print("error login: $e");
     }
   }
 }
