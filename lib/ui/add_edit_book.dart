@@ -3,24 +3,47 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nusantara_tes/controllers/bookController.dart';
+import '../model/books.dart';
 import '../widget/input_fields.dart';
 import '../widget/submit_button.dart';
 
 class AddEditBook extends StatefulWidget {
-  const AddEditBook({super.key});
+  final Datum? bookData;
+  const AddEditBook({super.key, this.bookData});
 
   @override
   State<AddEditBook> createState() => _AddEditBookState();
 }
 
 class _AddEditBookState extends State<AddEditBook> {
-  BookController bookController = Get.put(BookController());
   var isLogin = false.obs;
+
+  BookController bookController = Get.put(BookController());
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.bookData != null) {
+      bookController.isbnController.text = widget.bookData!.isbn;
+      bookController.titleController.text = widget.bookData!.title;
+      bookController.subtitleController.text = widget.bookData!.subtitle;
+      bookController.authorController.text = widget.bookData!.author;
+      bookController.publishedController.text =
+          widget.bookData!.published.toString();
+      bookController.publisherController.text = widget.bookData!.publisher;
+      bookController.pagesController.text = widget.bookData!.pages.toString();
+      bookController.descController.text = widget.bookData!.description;
+      bookController.webController.text = widget.bookData!.website;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Book"),
+        title: Text(
+          widget.bookData != null ? "Edit Book" : "Add Book",
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -78,7 +101,13 @@ class _AddEditBookState extends State<AddEditBook> {
                         height: 20,
                       ),
                       SubmitButton(
-                        onPressed: () => bookController.addBook(),
+                        onPressed: () {
+                          if (widget.bookData == null) {
+                            bookController.addBook();
+                          } else {
+                            bookController.editBook(widget.bookData!.id);
+                          }
+                        },
                         title: 'Save',
                       )
                     ],

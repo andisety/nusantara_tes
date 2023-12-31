@@ -21,14 +21,14 @@ class BookController extends GetxController {
   TextEditingController webController = TextEditingController();
 
   var datum = <Datum>[].obs;
-  RxList<Datum> booksList = <Datum>[].obs;
+  final booksList = <Datum>[].obs;
 
   var isLoading = false.obs;
 
   Future<String> getToken() async {
     String? token = await SharedPreferences.getInstance()
         .then((prefs) => prefs.getString('token'));
-    return token.toString();
+    return 'Bearer $token';
   }
 
   @override
@@ -43,8 +43,7 @@ class BookController extends GetxController {
       var url = APiEndpoint.baseUrl + APiEndpoint.authEndpoints.books;
       final dio = Dio();
       dio.options.headers['Accept'] = 'Application/json';
-      dio.options.headers['Authorization'] =
-          'Bearer 1079|eS6VzQd61l7DgEPRraRzip12JMmub8cIj94GkqFi';
+      dio.options.headers['Authorization'] = await getToken();
       var token = getToken();
       print(token);
 
@@ -65,8 +64,7 @@ class BookController extends GetxController {
     try {
       final dio = Dio();
       dio.options.headers['Accept'] = 'Application/json';
-      dio.options.headers['Authorization'] =
-          'Bearer 1079|eS6VzQd61l7DgEPRraRzip12JMmub8cIj94GkqFi';
+      dio.options.headers['Authorization'] = await getToken();
       var url = APiEndpoint.baseUrl + APiEndpoint.authEndpoints.addBooks;
       var body = {
         'isbn': isbnController.text,
@@ -86,10 +84,58 @@ class BookController extends GetxController {
         Map<String, dynamic> responseData = response.data;
         var token = responseData['token'];
         print(token);
-        Get.to(HomePage());
+        fetchdata();
+        Get.back();
       }
     } catch (e) {
       print("error add book: $e");
+    }
+  }
+
+  editBook(int id) async {
+    try {
+      final dio = Dio();
+      dio.options.headers['Accept'] = 'Application/json';
+      dio.options.headers['Authorization'] = await getToken();
+      var url = "${APiEndpoint.baseUrl}/api/books/$id/edit";
+      var body = {
+        'isbn': isbnController.text,
+        'title': titleController.text,
+        'subtitle': subtitleController.text,
+        'author': authorController.text,
+        'publisher': publisherController.text,
+        'published': publishedController.text,
+        'pages': pagesController.text,
+        'description': descController.text,
+        'website': webController.text,
+      };
+
+      final response = await dio.put(url, data: body);
+      if (response.statusCode == 200) {
+        print(response.data);
+        fetchdata();
+        Get.back();
+      }
+    } catch (e) {
+      print("error edit book: $e");
+    }
+  }
+
+  deleteBook(int id) async {
+    try {
+      final dio = Dio();
+      dio.options.headers['Accept'] = 'Application/json';
+      dio.options.headers['Authorization'] = await getToken();
+      var url = "${APiEndpoint.baseUrl}/api/books/$id";
+
+      final response = await dio.delete(url);
+      if (response.statusCode == 200) {
+        print(response.data);
+        booksList.removeWhere((element) => element.id == id);
+        fetchdata();
+      }
+    } catch (e) {
+      print("error delete book: $e");
     }
   }
 }
