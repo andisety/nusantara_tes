@@ -17,7 +17,7 @@ class AddEditBook extends StatefulWidget {
 
 class _AddEditBookState extends State<AddEditBook> {
   var isLogin = false.obs;
-
+  DateTime selectedDate = DateTime.now();
   BookController bookController = Get.put(BookController());
 
   @override
@@ -26,14 +26,31 @@ class _AddEditBookState extends State<AddEditBook> {
     if (widget.bookData != null) {
       bookController.isbnController.text = widget.bookData!.isbn;
       bookController.titleController.text = widget.bookData!.title;
-      bookController.subtitleController.text = widget.bookData!.subtitle;
-      bookController.authorController.text = widget.bookData!.author;
-      bookController.publishedController.text =
-          widget.bookData!.published.toString();
-      bookController.publisherController.text = widget.bookData!.publisher;
-      bookController.pagesController.text = widget.bookData!.pages.toString();
-      bookController.descController.text = widget.bookData!.description;
-      bookController.webController.text = widget.bookData!.website;
+      widget.bookData!.subtitle != null
+          ? bookController.subtitleController.text = widget.bookData!.subtitle!
+          : "";
+      widget.bookData!.author != null
+          ? bookController.authorController.text = widget.bookData!.author!
+          : "";
+
+      widget.bookData!.published != null
+          ? bookController.publishedController.text =
+              widget.bookData!.published!.toString()
+          : "";
+      widget.bookData!.publisher != null
+          ? bookController.publisherController.text =
+              widget.bookData!.publisher!
+          : "";
+      widget.bookData!.pages != null
+          ? bookController.pagesController.text =
+              widget.bookData!.pages!.toString()
+          : "";
+      widget.bookData!.description != null
+          ? bookController.descController.text = widget.bookData!.description!
+          : "";
+      widget.bookData!.website != null
+          ? bookController.webController.text = widget.bookData!.website!
+          : "";
     } else {
       bookController.isbnController.text = '';
       bookController.titleController.text = '';
@@ -44,6 +61,37 @@ class _AddEditBookState extends State<AddEditBook> {
       bookController.pagesController.text = '';
       bookController.descController.text = '';
       bookController.webController.text = '';
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null && pickedDate != selectedDate) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          selectedDate = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+        bookController.publishedController.text =
+            selectedDate.toLocal().toString();
+        print(selectedDate.toLocal());
+      }
     }
   }
 
@@ -85,8 +133,18 @@ class _AddEditBookState extends State<AddEditBook> {
                       SizedBox(
                         height: 20,
                       ),
-                      InputTextFieldWidget(
-                          bookController.publishedController, 'Published'),
+                      TextFormField(
+                        controller: bookController.publishedController,
+                        decoration: InputDecoration(
+                          labelText: 'Published Date',
+                          suffixIcon: IconButton(
+                            onPressed: () => _selectDate(context),
+                            icon: Icon(Icons.calendar_today),
+                          ),
+                        ),
+                        readOnly: true,
+                        onTap: () => _selectDate(context),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
@@ -112,10 +170,15 @@ class _AddEditBookState extends State<AddEditBook> {
                       ),
                       SubmitButton(
                         onPressed: () {
-                          if (widget.bookData == null) {
-                            bookController.addBook();
-                          } else {
+                          if (bookController.isbnController.text.isEmpty) {
+                            Get.snackbar("Error", "ISBN wajib diisi");
+                          } else if (bookController
+                              .titleController.text.isEmpty) {
+                            Get.snackbar("Error", "Title wajib diisi");
+                          } else if (widget.bookData != null) {
                             bookController.editBook(widget.bookData!.id);
+                          } else if (widget.bookData == null) {
+                            bookController.addBook();
                           }
                         },
                         title: 'Save',

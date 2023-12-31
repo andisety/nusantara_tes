@@ -119,11 +119,6 @@ class _DetailState extends State<DetailPage> {
                         const SizedBox(
                           height: 5,
                         ),
-                        const Text(
-                          "Release Date :",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text(widget.book.author.toString()),
                         const SizedBox(
                           height: 5,
                         ),

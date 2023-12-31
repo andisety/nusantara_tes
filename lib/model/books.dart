@@ -77,13 +77,13 @@ class Datum {
   int userId;
   String isbn;
   String title;
-  String subtitle;
-  String author;
-  DateTime published;
-  String publisher;
-  int pages;
-  String description;
-  String website;
+  String? subtitle;
+  String? author;
+  DateTime? published;
+  String? publisher;
+  int? pages;
+  String? description;
+  String? website;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -92,13 +92,13 @@ class Datum {
     required this.userId,
     required this.isbn,
     required this.title,
-    required this.subtitle,
-    required this.author,
-    required this.published,
-    required this.publisher,
-    required this.pages,
-    required this.description,
-    required this.website,
+    this.subtitle,
+    this.author,
+    this.published,
+    this.publisher,
+    this.pages,
+    this.description,
+    this.website,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -110,7 +110,9 @@ class Datum {
         title: json["title"],
         subtitle: json["subtitle"],
         author: json["author"],
-        published: DateTime.parse(json["published"]),
+        published: json["published"] != null
+            ? DateTime.parse(json["published"])
+            : null,
         publisher: json["publisher"],
         pages: json["pages"],
         description: json["description"],
@@ -126,7 +128,7 @@ class Datum {
         "title": title,
         "subtitle": subtitle,
         "author": author,
-        "published": published.toIso8601String(),
+        "published": published?.toIso8601String(),
         "publisher": publisher,
         "pages": pages,
         "description": description,

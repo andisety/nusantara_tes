@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(() => const AddEditBook());
+          Get.to(() => AddEditBook());
         },
         child: const Icon(Icons.add),
       ),

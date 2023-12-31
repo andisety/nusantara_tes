@@ -62,26 +62,29 @@ class BookController extends GetxController {
       final dio = Dio();
       dio.options.headers['Accept'] = 'Application/json';
       dio.options.headers['Authorization'] = await getToken();
-      var url = APiEndpoint.baseUrl + APiEndpoint.authEndpoints.addBooks;
+      print(await getToken());
+      var url = "${APiEndpoint.baseUrl}/api/books/add";
+
       var body = {
         'isbn': isbnController.text,
         'title': titleController.text,
-        'subtitle': subtitleController.text,
-        'author': authorController.text,
-        'publisher': publisherController.text,
-        'published': publishedController.text,
-        'pages': pagesController.text,
-        'description': descController.text,
-        'website': webController.text,
+        if (subtitleController.text.isNotEmpty)
+          'subtitle': subtitleController.text,
+        if (authorController.text.isNotEmpty) 'author': authorController.text,
+        if (publisherController.text.isNotEmpty)
+          'publisher': publisherController.text,
+        if (publishedController.text.isNotEmpty)
+          'published': publishedController.text,
+        if (pagesController.text.isNotEmpty) 'pages': pagesController.text,
+        if (descController.text.isNotEmpty) 'description': descController.text,
+        if (webController.text.isNotEmpty) 'website': webController.text,
       };
 
       final response = await dio.post(url, data: body);
+      print(response.data);
       if (response.statusCode == 200) {
-        print(response.data);
-        Map<String, dynamic> responseData = response.data;
-        var token = responseData['token'];
-        print(token);
         fetchdata();
+        Get.back();
         isbnController.text = '';
         titleController.text = '';
         subtitleController.text = '';
@@ -93,6 +96,11 @@ class BookController extends GetxController {
         webController.text = '';
       }
     } catch (e) {
+      if (e is DioError) {
+        if (e.response != null) {
+          print(e.response?.data);
+        }
+      }
       print("error add book: $e");
     }
   }
@@ -106,13 +114,16 @@ class BookController extends GetxController {
       var body = {
         'isbn': isbnController.text,
         'title': titleController.text,
-        'subtitle': subtitleController.text,
-        'author': authorController.text,
-        'publisher': publisherController.text,
-        'published': publishedController.text,
-        'pages': pagesController.text,
-        'description': descController.text,
-        'website': webController.text,
+        if (subtitleController.text.isNotEmpty)
+          'subtitle': subtitleController.text,
+        if (authorController.text.isNotEmpty) 'author': authorController.text,
+        if (publisherController.text.isNotEmpty)
+          'publisher': publisherController.text,
+        if (publishedController.text.isNotEmpty)
+          'published': publishedController.text,
+        if (pagesController.text.isNotEmpty) 'pages': pagesController.text,
+        if (descController.text.isNotEmpty) 'description': descController.text,
+        if (webController.text.isNotEmpty) 'website': webController.text,
       };
 
       final response = await dio.put(url, data: body);
