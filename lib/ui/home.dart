@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:nusantara_tes/ui/add_edit_book.dart';
 import 'package:nusantara_tes/ui/authScreen.dart';
 import 'package:nusantara_tes/ui/detailpage.dart';
+import 'package:nusantara_tes/ui/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/bookController.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
             onSelected: (value) {
               if (value == 'logout') {
                 removeToken();
-                Get.to(() => AuthScreen());
+                Get.to(() => const LoginPage());
               } else if (value == 'refresh') {
                 bookController.booksList.refresh();
               }
@@ -44,54 +45,58 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Obx(() {
-        return ListView.builder(
-            itemCount: bookController.booksList.length,
-            itemBuilder: (context, index) {
-              Datum book = bookController.booksList[index];
-              return GestureDetector(
-                  onTap: () {
-                    _showOptionsDialog(context, book);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 150,
-                            height: 150,
-                            child: Image.asset('assets/images/book.jpg'),
+        return bookController.isLoading.value
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: bookController.booksList.length,
+                itemBuilder: (context, index) {
+                  Datum book = bookController.booksList[index];
+                  return GestureDetector(
+                      onTap: () {
+                        _showOptionsDialog(context, book);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Image.asset('assets/images/book.jpg'),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      book.title,
+                                      style: const TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'Author: ${book.author}',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    Text(
+                                      'Published:${book.published}',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  book.title,
-                                  style: const TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  'Author: ${book.author}',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                                Text(
-                                  'Published:${book.published}',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ));
-            });
+                        ),
+                      ));
+                });
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -85,7 +85,15 @@ class BookController extends GetxController {
         var token = responseData['token'];
         print(token);
         fetchdata();
-        Get.back();
+        isbnController.text = '';
+        titleController.text = '';
+        subtitleController.text = '';
+        authorController.text = '';
+        publishedController.text = '';
+        publisherController.text = '';
+        pagesController.text = '';
+        descController.text = '';
+        webController.text = '';
       }
     } catch (e) {
       print("error add book: $e");

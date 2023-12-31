@@ -34,6 +34,16 @@ class _AddEditBookState extends State<AddEditBook> {
       bookController.pagesController.text = widget.bookData!.pages.toString();
       bookController.descController.text = widget.bookData!.description;
       bookController.webController.text = widget.bookData!.website;
+    } else {
+      bookController.isbnController.text = '';
+      bookController.titleController.text = '';
+      bookController.subtitleController.text = '';
+      bookController.authorController.text = '';
+      bookController.publishedController.text = '';
+      bookController.publisherController.text = '';
+      bookController.pagesController.text = '';
+      bookController.descController.text = '';
+      bookController.webController.text = '';
     }
   }
 

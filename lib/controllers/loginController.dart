@@ -11,10 +11,12 @@ import '../utils/apiEndpoint.dart';
 class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
-
+  var isLoading = false.obs;
+  var isSuccess = false.obs;
   final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
 
   Future<void> login() async {
+    isLoading(true);
     try {
       final dio = Dio(BaseOptions(headers: {'Accept': 'Application/json'}));
       var url = APiEndpoint.baseUrl + APiEndpoint.authEndpoints.loginEmail;
@@ -28,15 +30,18 @@ class LoginController extends GetxController {
         print(response.data);
 
         Map<String, dynamic> responseData = response.data;
-
-        // final json = jsonDecode(response.data);
         var token = responseData['token'];
         print(token);
         final SharedPreferences prefs = await _pref;
         await prefs.setString('token', token);
-        Get.to(HomePage());
+        isSuccess(true);
+        Get.snackbar("Sukses", "Login berhasil");
+
+        Get.to(() => const HomePage());
       }
     } catch (e) {
+      isLoading(false);
+      Get.snackbar("Failed", "Login Gagal");
       print("error login: $e");
     }
   }
