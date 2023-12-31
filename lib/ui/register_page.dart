@@ -35,6 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
     } else {
       try {
         registerController.register();
+        registerController.isLoading(false);
       } catch (e) {
         print(e);
       }
@@ -150,23 +151,34 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: size.height * 0.030,
               ),
               CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: double.maxFinite,
-                    height: size.height * 0.080,
-                    decoration: BoxDecoration(
-                        color: KButtonColor,
-                        borderRadius: BorderRadius.circular(37)),
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(
-                          color: KWhiteColor, fontWeight: FontWeight.w700),
-                    ),
+                padding: EdgeInsets.zero,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: double.maxFinite,
+                  height: size.height * 0.080,
+                  decoration: BoxDecoration(
+                    color: KButtonColor,
+                    borderRadius: BorderRadius.circular(37),
                   ),
-                  onPressed: () {
-                    _register();
+                  child: Obx(() {
+                    return registerController.isLoading.value
+                        ? const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(KWhiteColor),
+                          )
+                        : const Text(
+                            "Register",
+                            style: TextStyle(
+                              color: KWhiteColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          );
                   }),
+                ),
+                onPressed: () {
+                  _register();
+                },
+              ),
               SizedBox(
                 height: size.height * 0.040,
               ),

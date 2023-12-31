@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nusantara_tes/ui/add_edit_book.dart';
-import 'package:nusantara_tes/ui/authScreen.dart';
 import 'package:nusantara_tes/ui/detailpage.dart';
 import 'package:nusantara_tes/ui/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';

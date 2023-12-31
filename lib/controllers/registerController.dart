@@ -9,10 +9,11 @@ class RegisterController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
   TextEditingController pwd2Controller = TextEditingController();
-  final isSuccess = false.obs;
+  final isLoading = false.obs;
 
   Future<void> register() async {
     try {
+      isLoading(true);
       final dio = Dio(BaseOptions(headers: {'Accept': 'Application/json'}));
       var url = APiEndpoint.baseUrl + APiEndpoint.authEndpoints.registerEmail;
       var body = {
@@ -23,11 +24,17 @@ class RegisterController extends GetxController {
       };
       final response = await dio.post(url, data: body);
       if (response.statusCode == 200) {
+        nameController.text = '';
+        emailController.text = '';
+        pwdController.text = '';
+        pwd2Controller.text = '';
+
         print("user created:${response.data}");
         Get.snackbar("Success", "Register berhasil");
         Get.to(() => const LoginPage());
       }
     } catch (e) {
+      isLoading(false);
       print("error : $e");
       Get.snackbar("Error", "Register gagal");
     }

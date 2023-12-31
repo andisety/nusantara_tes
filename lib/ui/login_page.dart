@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nusantara_tes/ui/home.dart';
 import 'package:nusantara_tes/ui/register_page.dart';
 
 import '../controllers/loginController.dart';
@@ -29,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       try {
         loginController.login();
+        loginController.isLoading(false);
       } catch (e) {
         print(e);
       }
@@ -111,23 +111,34 @@ class _LoginPageState extends State<LoginPage> {
                 height: size.height * 0.030,
               ),
               CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: double.maxFinite,
-                    height: size.height * 0.080,
-                    decoration: BoxDecoration(
-                        color: KButtonColor,
-                        borderRadius: BorderRadius.circular(37)),
-                    child: const Text(
-                      "Log In",
-                      style: TextStyle(
-                          color: KWhiteColor, fontWeight: FontWeight.w700),
-                    ),
+                padding: EdgeInsets.zero,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: double.maxFinite,
+                  height: size.height * 0.080,
+                  decoration: BoxDecoration(
+                    color: KButtonColor,
+                    borderRadius: BorderRadius.circular(37),
                   ),
-                  onPressed: () {
-                    _login();
+                  child: Obx(() {
+                    return loginController.isLoading.value
+                        ? const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(KWhiteColor),
+                          )
+                        : const Text(
+                            "Log In",
+                            style: TextStyle(
+                              color: KWhiteColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          );
                   }),
+                ),
+                onPressed: () {
+                  _login();
+                },
+              ),
               SizedBox(
                 height: size.height * 0.040,
               ),

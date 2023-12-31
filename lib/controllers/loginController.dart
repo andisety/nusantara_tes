@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -14,6 +12,11 @@ class LoginController extends GetxController {
   var isLoading = false.obs;
   var isSuccess = false.obs;
   final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    isLoading(false);
+  }
 
   Future<void> login() async {
     isLoading(true);
@@ -24,25 +27,21 @@ class LoginController extends GetxController {
         'email': emailController.text.trim(),
         'password': pwdController.text
       };
-
       final response = await dio.post(url, data: body);
       if (response.statusCode == 200) {
-        print(response.data);
-
+        emailController.text = '';
+        pwdController.text = '';
         Map<String, dynamic> responseData = response.data;
         var token = responseData['token'];
-        print(token);
         final SharedPreferences prefs = await _pref;
         await prefs.setString('token', token);
         isSuccess(true);
         Get.snackbar("Sukses", "Login berhasil");
-
         Get.to(() => const HomePage());
       }
     } catch (e) {
       isLoading(false);
       Get.snackbar("Failed", "Login Gagal");
-      print("error login: $e");
     }
   }
 }
