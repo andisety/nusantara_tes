@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _viewBookDetails(BuildContext context, Datum book) {
-    Get.to(() => AddEditBook(bookData: book));
+    Get.to(() => DetailPage(book: book));
   }
 
   void _editBook(BuildContext context, Datum book) {
