@@ -12,11 +12,6 @@ class LoginController extends GetxController {
   var isLoading = false.obs;
   var isSuccess = false.obs;
   final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    isLoading(false);
-  }
 
   Future<void> login() async {
     isLoading(true);
@@ -38,6 +33,7 @@ class LoginController extends GetxController {
         isSuccess(true);
         Get.snackbar("Sukses", "Login berhasil");
         Get.to(() => const HomePage());
+        isLoading(false);
       }
     } catch (e) {
       isLoading(false);

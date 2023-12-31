@@ -32,6 +32,7 @@ class RegisterController extends GetxController {
         print("user created:${response.data}");
         Get.snackbar("Success", "Register berhasil");
         Get.to(() => const LoginPage());
+        isLoading(false);
       }
     } catch (e) {
       isLoading(false);

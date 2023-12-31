@@ -18,17 +18,12 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _login() async {
     if (loginController.emailController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Email tidak boleh kosong"),
-      ));
+      Get.snackbar("Error", "Email tidak boleh kosong");
     } else if (loginController.pwdController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Password tidak boleh kosong"),
-      ));
+      Get.snackbar("Error", "Password tidak boleh kosong");
     } else {
       try {
         loginController.login();
-        loginController.isLoading(false);
       } catch (e) {
         print(e);
       }

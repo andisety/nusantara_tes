@@ -7,6 +7,7 @@ import 'package:nusantara_tes/ui/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/bookController.dart';
+import '../controllers/userCOntroller.dart';
 import '../model/books.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   BookController bookController = Get.put(BookController());
+  UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class _HomePageState extends State<HomePage> {
           PopupMenuButton<String>(
             onSelected: (value) {
               if (value == 'logout') {
+                userController.logout();
                 removeToken();
                 Get.to(() => const LoginPage());
               } else if (value == 'refresh') {
